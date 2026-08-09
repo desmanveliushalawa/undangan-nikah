@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Undangan Pernikahan Sertu Hendry Susanto Halawa &amp; Nesra Menivil Larosa, S.Pd - 29 Agustus 2026, Nias Selatan" />
+  <meta name="keywords" content="undangan pernikahan, Hendry Halawa, Nesra Larosa, pernikahan Nias Selatan" />
+  <meta name="color-scheme" content="light only" />
+
+  <!-- Open Graph (untuk share WA, FB, Instagram) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Undangan Pernikahan – Hendry &amp; Nesra | 29 Agustus 2026" />
+  <meta property="og:description"
+    content="Kami mengundang Anda untuk hadir dalam perayaan pernikahan kudus kami. Sabtu, 29 Agustus 2026 di Nias Selatan." />
+  <meta property="og:image" content="foto4.jpg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Undangan Pernikahan – Hendry &amp; Nesra" />
+  <meta name="twitter:description" content="Sabtu, 29 Agustus 2026 | Desa Hiliadulo, Nias Selatan" />
+  <meta name="twitter:image" content="foto4.jpg" />
+
+  <title>Undangan Pernikahan – Hendry &amp; Nesra | 29 Agustus 2026</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Arizonia&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Bootstrap Icons (for heart icons, social icons) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body id="body">
+
+  <!-- SVG GRADIENT DEFINITIONS -->
+  <svg width="0" height="0" class="svg-defs">
+    <defs>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E8CA72" />
+        <stop offset="50%" stop-color="#C9A84C" />
+        <stop offset="100%" stop-color="#9A7B2C" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BACKGROUND MUSIC (YouTube IFrame API – Hidden Player)
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="ytPlayerWrap"
+    style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden;z-index:-1;">
+    <div id="ytPlayer"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FIREFLY BACKGROUND ANIMATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="firefly-container" id="fireflyContainer"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       COVER / SPLASH SCREEN (Elegant Light Style)
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="coverScreen" class="cover-screen">
+    <div class="cover-inner">
+      <!-- Photo area (top) -->
+      <div class="cover-photo-area">
+        <div class="cover-bg-photo" id="coverBgPhoto" style="background-image: url('foto4.jpg');"></div>
+        <div class="cover-label-top">Wedding Invitation</div>
+      </div>
+
+      <!-- Glass panel (bottom) -->
+      <div class="cover-glass-panel">
+        <div class="cover-btn-wrap">
+          <button id="openInvBtn" class="btn-open-inv" onclick="openInvitation()">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+              </path>
+            </svg>
+            <span>Buka Undangan</span>
+          </button>
+        </div>
+
+        <h1 class="cover-names">
+          <span>Hendry</span>
+          <span class="cover-ampersand">&amp;</span>
+          <span>Nesra</span>
+        </h1>
+
+        <div class="cover-date-box">
+          <span>Sabtu, 29 Agustus 2026</span>
+        </div>
+
+        <div class="cover-guest-info">
+          <p class="cover-guest-label">Kepada Yth.</p>
+          <p class="cover-guest-name" id="coverGuestName">Bapak/Ibu/Saudara/i</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN INVITATION CONTENT
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="mainContent" class="main-content hidden">
+
+    <!-- FLOATING CONTROLS -->
+    <div class="floating-controls">
+      <button id="musicBtn" class="fab-btn" onclick="toggleMusic()" title="Musik Latar">
+        <svg id="musicIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </button>
+      <button id="shareBtn" class="fab-btn" onclick="toggleShareMenu()" title="Bagikan Undangan">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- SHARE MENU -->
+    <div id="shareMenu" class="share-menu hidden">
+      <p class="share-title">Bagikan</p>
+      <button class="share-item" onclick="shareWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+          </path>
+        </svg>
+        WhatsApp
+      </button>
+      <button class="share-item" onclick="shareFacebook()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+        </svg>
+        Facebook
+      </button>
+      <button class="share-item" onclick="shareInstagramStory()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram Story
+      </button>
+      <button class="share-item" onclick="shareTwitter()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+          </path>
+        </svg>
+        Twitter / X
+      </button>
+      <button class="share-item" onclick="copyLink()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        Salin Link
+      </button>
+    </div>
+
+    <!-- INSTAGRAM STORY MODAL -->
+    <div id="storyModal" class="story-modal hidden">
+      <div class="story-modal-content">
+        <button class="story-modal-close" onclick="closeStoryModal()">✕</button>
+        <h3 class="story-modal-title">Bagikan</h3>
+        <p class="story-modal-desc">Screenshot kartu di bawah ini untuk dibagikan ke Instagram Story atau WhatsApp
+          Status.</p>
+        <div class="story-card" id="storyCard">
+          <div class="story-bg"></div>
+          <div class="story-content-inner">
+            <div class="story-cross">✝</div>
+            <p class="story-invite-text">The Wedding of</p>
+            <h2 class="story-names">Hendry<br /><span>&amp;</span><br />Nesra</h2>
+            <p class="story-date-text">Sabtu, 29 Agustus 2026</p>
+            <p class="story-location-text">Desa Hiliadulo, Nias Selatan</p>
+            <div class="story-divider">✦ ─── ✦</div>
+            <p class="story-link-text">Buka Undangan:</p>
+            <p class="story-url" id="storyUrl">—</p>
+          </div>
+        </div>
+        <button class="btn-copy-story-link" onclick="copyLink()">Salin Tautan Undangan</button>
+      </div>
+    </div>
+
+    <!-- LUXURY NAVIGATION BAR -->
+    <nav class="nav-bar" id="navBar">
+      <a href="#hero" class="nav-link" title="Beranda">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="nav-text">Beranda</span>
+      </a>
+      <a href="#mempelai" class="nav-link" title="Mempelai">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+          </path>
+        </svg>
+        <span class="nav-text">Mempelai</span>
+      </a>
+      <a href="#acara" class="nav-link" title="Acara">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span class="nav-text">Acara</span>
+      </a>
+      <a href="#galeri" class="nav-link" title="Galeri">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span class="nav-text">Galeri</span>
+      </a>
+      <a href="#rsvp" class="nav-link" title="RSVP">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span class="nav-text">RSVP</span>
+      </a>
+      <a href="#ucapan" class="nav-link" title="Ucapan">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="nav-text">Ucapan</span>
+      </a>
+      <a href="#angpao" class="nav-link" title="Kado">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 12 20 22 4 22 4 12"></polyline>
+          <rect x="2" y="7" width="20" height="5"></rect>
+          <line x1="12" y1="22" x2="12" y2="7"></line>
+          <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+          <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+        </svg>
+        <span class="nav-text">Kado</span>
+      </a>
+    </nav>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 1: HERO
+         ────────────────────────────────────────── -->
+    <section id="hero" class="section section-hero">
+      <div class="hero-photo-area fade-in">
+        <img src="foto4.jpg" alt="Hendry & Nesra" class="hero-photo-bg" onerror="this.src='couple.png'" />
+        <div class="hero-photo-gradient"></div>
+      </div>
+      <div class="hero-content">
+        <p class="hero-label fade-in">Wedding Invitation</p>
+        <h1 class="hero-couple-names fade-in">
+          Hendry <span class="amp">&amp;</span> Nesra
+        </h1>
+
+        <div class="hero-date-row fade-in">
+          <span class="hero-date-text">29 Agustus 2026</span>
+          <div class="hero-date-line"></div>
+          <div class="hero-mini-countdown" id="heroCountdown">
+            <div class="hero-cd-item"><span class="hero-cd-num" id="heroCdD">00</span><span
+                class="hero-cd-label">Hari</span></div>
+            <div class="hero-cd-item"><span class="hero-cd-num" id="heroCdH">00</span><span
+                class="hero-cd-label">Jam</span></div>
+            <div class="hero-cd-item"><span class="hero-cd-num" id="heroCdM">00</span><span
+                class="hero-cd-label">Mnt</span></div>
+            <div class="hero-cd-item"><span class="hero-cd-num" id="heroCdS">00</span><span
+                class="hero-cd-label">Dtk</span></div>
+          </div>
+        </div>
+
+        <div class="hero-guest-info fade-in">
+          <p class="hero-guest-label">Kepada Yth.</p>
+          <p class="hero-guest-name" id="heroGuestName">Bapak/Ibu/Saudara/i</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         QUOTE / BIBLE VERSE SECTION
+         ────────────────────────────────────────── -->
+    <section class="section-quote" id="quote">
+      <div class="section-bg-fixed" style="background-image:url('foto6.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <div class="quote-text fade-in">
+        "Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh
+        diceraikan manusia."
+      </div>
+      <div class="quote-source fade-in">— Markus 10:9</div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 2: MEMPELAI
+         ────────────────────────────────────────── -->
+    <section id="mempelai" class="section section-mempelai">
+      <div class="section-bg-fixed" style="background-image:url('foto5.jpg')"></div>
+      <div class="section-bg-overlay overlay-light"></div>
+      <h2 class="section-title fade-in title-light">Mempelai</h2>
+      <p class="section-subtitle fade-in">Dengan penuh rasa syukur dan sukacita di dalam kasih Tuhan Yesus Kristus</p>
+
+      <div class="mempelai-wrap fade-in">
+        <!-- Corner Decorations (CSS pseudo or SVG) -->
+        <svg class="corner-decoration corner-top-left" viewBox="0 0 100 100" fill="none">
+          <path d="M5 95 C5 50, 50 5, 95 5" stroke="rgba(49,27,27,0.15)" stroke-width="1.5" fill="none" />
+          <circle cx="95" cy="5" r="3" fill="rgba(49,27,27,0.12)" />
+          <circle cx="5" cy="95" r="3" fill="rgba(49,27,27,0.12)" />
+          <path d="M15 80 C15 45, 45 15, 80 15" stroke="rgba(49,27,27,0.08)" stroke-width="1" fill="none" />
+        </svg>
+        <svg class="corner-decoration corner-bottom-right" viewBox="0 0 100 100" fill="none">
+          <path d="M5 95 C5 50, 50 5, 95 5" stroke="rgba(49,27,27,0.15)" stroke-width="1.5" fill="none" />
+          <circle cx="95" cy="5" r="3" fill="rgba(49,27,27,0.12)" />
+          <circle cx="5" cy="95" r="3" fill="rgba(49,27,27,0.12)" />
+          <path d="M15 80 C15 45, 45 15, 80 15" stroke="rgba(49,27,27,0.08)" stroke-width="1" fill="none" />
+        </svg>
+
+        <!-- Mempelai Wanita (Bride First - Elegant Light Style) -->
+        <div class="mempelai-card">
+          <div class="mempelai-photo-wrap">
+            <img src="foto1.jpg" alt="Nesra" class="mempelai-photo" onerror="this.src='couple.png'" />
+          </div>
+          <h3 class="mempelai-name">Nesra Menivil Larosa, S.Pd</h3>
+          <p class="mempelai-role">Mempelai Wanita</p>
+          <p class="mempelai-parents">
+            Putri Tercinta dari<br />
+            Bapak Nehemia Larosa &amp; Ibu Sepasrani Moho </p>
+        </div>
+
+        <div class="mempelai-ampersand">&amp;</div>
+
+        <!-- Mempelai Pria -->
+        <div class="mempelai-card">
+          <div class="mempelai-photo-wrap">
+            <img src="foto4.jpg" alt="Hendry" class="mempelai-photo" onerror="this.src='couple.png'" />
+          </div>
+          <h3 class="mempelai-name">Sertu Hendry Susanto Halawa</h3>
+          <p class="mempelai-role">Mempelai Pria</p>
+          <p class="mempelai-parents">
+            Putra Tercinta dari<br />
+            Bapak Sesuaikan Halawa &amp; Ibu Ferida Halawa
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 3: DETAIL ACARA
+         ────────────────────────────────────────── -->
+    <section id="acara" class="section section-acara">
+      <div class="section-bg-fixed" style="background-image:url('foto2.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <h2 class="section-title fade-in">Jadwal Acara</h2>
+      <p class="section-subtitle fade-in sub-on-dark">Kami mengundang Bapak/Ibu/Saudara/i untuk hadir memberikan doa
+        restu</p>
+
+      <div class="acara-cards fade-in">
+        <!-- 1. Pemberkatan Nikah -->
+        <div class="acara-card">
+          <div class="acara-heart-divider">
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+          </div>
+          <h3 class="acara-type">Pemberkatan Nikah</h3>
+          <p class="acara-detail-row">Selasa, 25 Agustus 2026<br />Pukul 10.00 WIB</p>
+          <p class="acara-venue">Gereja AMIN Jemaat Pasar Telukdalam</p>
+          <p class="acara-address">Telukdalam, Kab. Nias Selatan, Sumatera Utara</p>
+          <div>
+            <a href="https://www.google.com/maps/search/Gereja+AMIN+Jemaat+Pasar+Telukdalam+Nias+Selatan"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Google Maps
+            </a>
+            <a href="https://www.google.com/calendar/event?action=TEMPLATE&text=Pemberkatan+Nikah+Hendry+%26+Nesra&details=Gereja+AMIN+Jemaat+Pasar+Telukdalam+Nias+Selatan&dates=20260825T030000Z/20260825T060000Z&location=Gereja+AMIN+Jemaat+Pasar+Telukdalam"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Save The Date
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. Acara Adat -->
+        <div class="acara-card">
+          <div class="acara-heart-divider">
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+          </div>
+          <h3 class="acara-type">Acara Adat</h3>
+          <p class="acara-detail-row">Rabu, 26 Agustus 2026<br />Pukul 12.00 WIB</p>
+          <p class="acara-venue">Gedung Balai Persekutuan BKPN</p>
+          <p class="acara-address">Telukdalam, Kab. Nias Selatan, Sumatera Utara</p>
+          <div>
+            <a href="https://www.google.com/maps/search/Balai+Persekutuan+BKPN+Telukdalam+Nias+Selatan"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Google Maps
+            </a>
+            <a href="https://www.google.com/calendar/event?action=TEMPLATE&text=Acara+Adat+Pernikahan+Hendry+%26+Nesra&details=Gedung+Balai+Persekutuan+BKPN+Telukdalam+Nias+Selatan&dates=20260826T050000Z/20260826T090000Z&location=Gedung+Balai+Persekutuan+BKPN+Telukdalam"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Save The Date
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Resepsi Pernikahan -->
+        <div class="acara-card">
+          <div class="acara-heart-divider">
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill"></i>
+          </div>
+          <h3 class="acara-type">Resepsi Pernikahan</h3>
+          <p class="acara-detail-row">Sabtu, 29 Agustus 2026<br />Pukul 11.00 WIB – Selesai</p>
+          <p class="acara-venue">Rumah Mempelai Laki-laki</p>
+          <p class="acara-address">Dusun II Banua Sibohou, Desa Hiliadulo, Kec. Hilisalawa'Ahe, Kab. Nias Selatan</p>
+          <div>
+            <a href="https://www.google.com/maps/search/Desa+Hiliadulo+Kecamatan+Hilisalawa+Nias+Selatan"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Google Maps
+            </a>
+            <a href="https://www.google.com/calendar/event?action=TEMPLATE&text=Resepsi+Pernikahan+Hendry+%26+Nesra&details=Rumah+Mempelai+Laki-laki+Dusun+II+Banua+Sibohou+Desa+Hiliadulo+Nias+Selatan&dates=20260829T040000Z/20260829T100000Z&location=Desa+Hiliadulo+Nias+Selatan"
+              target="_blank" rel="noopener noreferrer" class="acara-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Save The Date
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 4: COUNTDOWN
+         ────────────────────────────────────────── -->
+    <section id="countdown" class="section section-countdown">
+      <div class="section-bg-fixed" style="background-image:url('foto8.jpg')"></div>
+      <div class="section-bg-overlay overlay-cream"></div>
+      <h2 class="section-title fade-in title-light">Menghitung Hari</h2>
+      <p class="section-subtitle fade-in">Menuju hari bahagia penyatuan janji suci kami</p>
+
+      <div class="countdown-timer fade-in" id="countdownTimer">
+        <div class="countdown-item"><span class="countdown-num" id="cdDays">00</span><span
+            class="countdown-label">Hari</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cdHours">00</span><span
+            class="countdown-label">Jam</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cdMinutes">00</span><span
+            class="countdown-label">Menit</span></div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item"><span class="countdown-num" id="cdSeconds">00</span><span
+            class="countdown-label">Detik</span></div>
+      </div>
+      <p id="countdownDone" class="countdown-done hidden">Hari bahagia telah tiba! Selamat datang di pernikahan kami.
+      </p>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 5: LOKASI
+         ────────────────────────────────────────── -->
+    <section id="lokasi" class="section section-lokasi">
+      <div class="section-bg-fixed" style="background-image:url('foto11.jpg')"></div>
+      <div class="section-bg-overlay overlay-light"></div>
+      <h2 class="section-title fade-in title-light">Lokasi Acara</h2>
+      <p class="section-subtitle fade-in">Petunjuk arah &amp; peta lokasi rangkaian acara pernikahan kami</p>
+
+      <div class="maps-wrapper fade-in">
+        <iframe title="Lokasi Pernikahan Hendry &amp; Nesra"
+          src="https://maps.google.com/maps?q=Desa+Hiliadulo+Nias+Selatan&output=embed&z=13" width="100%" height="350"
+          style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <div class="lokasi-links fade-in">
+        <a href="https://www.google.com/maps/search/Gereja+AMIN+Jemaat+Pasar+Telukdalam+Nias+Selatan" target="_blank"
+          rel="noopener noreferrer" class="btn-maps btn-maps-sub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>1. Gereja AMIN Telukdalam (Pemberkatan)</span>
+        </a>
+        <a href="https://www.google.com/maps/search/Balai+Persekutuan+BKPN+Telukdalam+Nias+Selatan" target="_blank"
+          rel="noopener noreferrer" class="btn-maps btn-maps-sub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>2. Gedung BKPN Telukdalam (Acara Adat)</span>
+        </a>
+        <a href="https://www.google.com/maps/search/Desa+Hiliadulo+Kecamatan+Hilisalawa+Nias+Selatan" target="_blank"
+          rel="noopener noreferrer" class="btn-maps">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>3. Rumah Mempelai Laki-laki (Resepsi)</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 6: GALERI (SLIDER CAROUSEL)
+         ────────────────────────────────────────── -->
+    <section id="galeri" class="section section-galeri">
+      <div class="section-bg-fixed" style="background-image:url('foto9.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <h2 class="section-title fade-in">Galeri Foto</h2>
+      <p class="section-subtitle fade-in sub-on-dark">Momen kebersamaan dan perjalanan cinta kami</p>
+
+      <!-- SLIDER WRAPPER -->
+      <div class="slider-wrapper fade-in" id="sliderWrapper">
+
+        <!-- Slide Track (photos injected by JS) -->
+        <div class="slider-track" id="sliderTrack"></div>
+
+        <!-- Prev / Next Arrows -->
+        <button class="slider-arrow slider-prev" id="sliderPrev" onclick="sliderMove(-1)" aria-label="Foto sebelumnya">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="slider-arrow slider-next" id="sliderNext" onclick="sliderMove(1)" aria-label="Foto berikutnya">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Counter (e.g. 1 / 11) -->
+        <div class="slider-counter" id="sliderCounter">1 / 11</div>
+
+        <!-- Dot Indicators -->
+        <div class="slider-dots" id="sliderDots"></div>
+
+        <!-- Expand / Fullscreen button -->
+        <button class="slider-expand-btn" id="sliderExpandBtn" onclick="openLightbox(sliderCurrentIndex)"
+          aria-label="Lihat fullscreen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- LIGHTBOX FULLSCREEN -->
+      <div id="lightbox" class="lightbox hidden" onclick="closeLightboxOverlay(event)">
+        <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+        <button class="lightbox-prev" onclick="lightboxPrev(event)">&#8249;</button>
+        <img id="lightboxImg" src="" alt="Foto Galeri" />
+        <button class="lightbox-next" onclick="lightboxNext(event)">&#8250;</button>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────
+         SECTION 7: RSVP
+         ────────────────────────────────────────── -->
+    <section id="rsvp" class="section section-rsvp">
+      <div class="section-bg-fixed" style="background-image:url('foto12.jpg')"></div>
+      <div class="section-bg-overlay overlay-cream"></div>
+      <h2 class="section-title fade-in title-light">Konfirmasi Kehadiran</h2>
+      <p class="section-subtitle fade-in">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan
+        hadir</p>
+
+      <form id="rsvpForm" class="rsvp-form fade-in" onsubmit="submitRSVP(event)">
+        <div class="form-group">
+          <label for="rsvpName">Nama Lengkap *</label>
+          <input type="text" id="rsvpName" name="nama" required placeholder="Tuliskan nama lengkap Anda" />
+        </div>
+        <div class="form-group">
+          <label for="rsvpPhone">Nomor WhatsApp</label>
+          <input type="tel" id="rsvpPhone" name="telepon" placeholder="Contoh: 081234567890" />
+        </div>
+        <div class="form-group">
+          <label for="rsvpAttend">Konfirmasi Kehadiran *</label>
+          <select id="rsvpAttend" name="hadir" required>
+            <option value="">-- Pilih Status Kehadiran --</option>
+            <option value="hadir">Ya, Saya Akan Hadir</option>
+            <option value="tidak">Maaf, Berhalangan Hadir</option>
+            <option value="mungkin">Mungkin Hadir</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rsvpGuests">Jumlah Tamu</label>
+          <select id="rsvpGuests" name="tamu">
+            <option value="1">1 Orang</option>
+            <option value="2">2 Orang</option>
+            <option value="3">3 Orang</option>
+            <option value="4">4 Orang</option>
+            <option value="5+">5 Orang atau Lebih</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-rsvp" id="rsvpSubmitBtn">Kirim Konfirmasi</button>
+      </form>
+
+      <div id="rsvpSuccess" class="rsvp-success hidden">
+        <div class="rsvp-success-icon-wrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h3>Terima Kasih</h3>
+        <p>Konfirmasi kehadiran Anda telah kami catat. Sampai jumpa di hari bahagia kami!</p>
+      </div>
+
+      <!-- ADMIN GUEST LIST TRIGGER & MODAL -->
+      <div class="admin-guest-trigger-wrap fade-in">
+        <button type="button" class="btn-admin-guest" onclick="openGuestModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Buka Rekap Daftar Tamu &amp; Unduh Spreadsheet</span>
+        </button>
+      </div>
+
+      <div id="guestModal" class="guest-modal hidden" onclick="closeGuestModalOverlay(event)">
+        <div class="guest-modal-content">
+          <div class="guest-modal-header">
+            <div>
+              <h3 class="guest-modal-title">Rekap Tamu</h3>
+              <p class="guest-modal-subtitle">Hendry &amp; Nesra — 29 Agustus 2026</p>
+            </div>
+            <button class="guest-modal-close" onclick="closeGuestModal()">✕</button>
+          </div>
+
+          <!-- SUMMARY COUNTERS -->
+          <div class="guest-summary-grid">
+            <div class="summary-card summary-hadir">
+              <span class="summary-num" id="sumHadir">0</span>
+              <span class="summary-label">Akan Hadir</span>
+            </div>
+            <div class="summary-card summary-pax">
+              <span class="summary-num" id="sumPax">0</span>
+              <span class="summary-label">Total Pax</span>
+            </div>
+            <div class="summary-card summary-tidak">
+              <span class="summary-num" id="sumTidak">0</span>
+              <span class="summary-label">Berhalangan</span>
+            </div>
+            <div class="summary-card summary-mungkin">
+              <span class="summary-num" id="sumMungkin">0</span>
+              <span class="summary-label">Mungkin</span>
+            </div>
+          </div>
+
+          <!-- ACTION BUTTONS -->
+          <div class="guest-modal-actions">
+            <button class="btn-export-csv" onclick="exportGuestCSV()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Unduh CSV</span>
+            </button>
+          </div>
+
+          <!-- TABLE -->
+          <div class="guest-table-wrap">
+            <table class="guest-table" id="guestTable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Tamu</th>
+                  <th>WhatsApp</th>
+                  <th>Status</th>
+                  <th>Jumlah</th>
+                  <th>Waktu</th>
+                </tr>
+              </thead>
+              <tbody id="guestTableBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 8: UCAPAN & DOA
+         ────────────────────────────────────────── -->
+    <section id="ucapan" class="section section-ucapan">
+      <div class="section-bg-fixed" style="background-image:url('foto1.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <h2 class="section-title fade-in">Ucapan &amp; Doa</h2>
+      <p class="section-subtitle fade-in sub-on-dark">Sampaikan doa dan harapan terbaik untuk kedua mempelai</p>
+
+      <form id="ucapanForm" class="ucapan-form fade-in" onsubmit="submitUcapan(event)">
+        <div class="form-group">
+          <label for="ucapanName">Nama Anda *</label>
+          <input type="text" id="ucapanName" required placeholder="Nama lengkap atau kerabat" />
+        </div>
+        <div class="form-group">
+          <label for="ucapanText">Ucapan &amp; Doa *</label>
+          <textarea id="ucapanText" rows="4" required
+            placeholder="Tuliskan ucapan dan doa berkat terbaik Anda..."></textarea>
+        </div>
+        <button type="submit" class="btn-ucapan">Kirim Ucapan &amp; Doa</button>
+      </form>
+
+      <div id="ucapanList" class="ucapan-list fade-in">
+        <div class="ucapan-item">
+          <div class="ucapan-avatar">H</div>
+          <div class="ucapan-body">
+            <div class="ucapan-sender">Keluarga Besar Halawa &amp; Larosa</div>
+            <div class="ucapan-msg">Selamat menempuh hidup baru untuk Hendry &amp; Nesra. Semoga senantiasa diberkati
+              dalam kasih dan damai sejahtera Tuhan Yesus Kristus. Amin.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 9: KADO & TANDA KASIH
+         ────────────────────────────────────────── -->
+    <section id="angpao" class="section section-angpao">
+      <div class="section-bg-fixed" style="background-image:url('foto4.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <h2 class="section-title fade-in">Tanda Kasih</h2>
+      <p class="section-subtitle fade-in sub-on-dark">Doa restu Anda merupakan karunia terindah bagi kami. Bagi yang
+        berkenan memberikan tanda kasih:</p>
+
+      <div class="angpao-cards fade-in">
+        <div class="angpao-card" onclick="copyRekening('BNI', '1986184512', 'Sertu Hendry Susanto Halawa')">
+          <div class="bank-logo-wrap">
+            <div class="bank-logo bni-logo">BNI</div>
+          </div>
+          <div class="angpao-info">
+            <p class="bank-name">Bank Negara Indonesia (BNI)</p>
+            <p class="rekening-num">1986184512</p>
+            <p class="rekening-holder">a.n. Sertu Hendry Susanto Halawa</p>
+          </div>
+          <button class="btn-copy-rek" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Salin Rekening</span>
+          </button>
+        </div>
+      </div>
+      <div id="copyNotif" class="copy-notif hidden">Nomor rekening berhasil disalin!</div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         SECTION 10: QR CODE
+         ────────────────────────────────────────── -->
+    <section id="qrcode" class="section section-qrcode">
+      <div class="section-bg-fixed" style="background-image:url('foto6.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <h2 class="section-title fade-in">QR Code Undangan</h2>
+      <p class="section-subtitle fade-in sub-on-dark">Pindai kode QR di bawah ini untuk membuka undangan di ponsel Anda
+      </p>
+      <div class="qr-wrapper fade-in">
+        <div id="qrCodeEl" class="qr-box"></div>
+        <p class="qr-label">Pindai &amp; Bagikan</p>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         FOOTER
+         ────────────────────────────────────────── -->
+    <footer class="section-footer">
+      <div class="section-bg-fixed" style="background-image:url('foto10.jpg')"></div>
+      <div class="section-bg-overlay overlay-dark"></div>
+      <div class="footer-cross">✝</div>
+      <h2 class="footer-names">Hendry &amp; Nesra</h2>
+      <p class="footer-date">Sabtu, 29 Agustus 2026</p>
+      <p class="footer-verse">
+        "Sebab itu seorang laki-laki akan meninggalkan ayahnya dan ibunya dan bersatu dengan isterinya, sehingga
+        keduanya itu menjadi satu daging."
+        <br /><em>— Kejadian 2:24</em>
+      </p>
+      <div class="footer-subtext">Nias Selatan, Sumatera Utara</div>
+    </footer>
+
+  </div><!-- end #mainContent -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>
