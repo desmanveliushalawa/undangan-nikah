@@ -5,53 +5,53 @@
 
 // ── CONFIG ────────────────────────────────────────────────────
 const WEDDING_DATE = new Date('2026-08-26T10:00:00+07:00');
-const WEDDING_URL  = window.location.href;
+const WEDDING_URL = window.location.href;
 
 // YouTube Video ID (lagu tema)
-const YT_VIDEO_ID  = '82vC07ygl0A';
+const YT_VIDEO_ID = '82vC07ygl0A';
 
 // 11 Foto Galeri HD
 const GALLERY_PHOTOS = [
-  { src: 'foto3.jpg',  alt: 'Hendry & Nesra – Momen Romantis'       },
-  { src: 'foto1.jpg',  alt: 'Hendry & Nesra – Elegan Bersama'        },
-  { src: 'foto2.jpg',  alt: 'Hendry & Nesra – Pose Indah'            },
-  { src: 'foto5.jpg',  alt: 'Hendry & Nesra – Busana Adat Nias'      },
-  { src: 'foto6.jpg',  alt: 'Hendry & Nesra – Ceria'                 },
-  { src: 'foto8.jpg',  alt: 'Hendry & Nesra – Penuh Kasih'           },
-  { src: 'foto4.jpg',  alt: 'Hendry & Nesra – Klasik'                },
-  { src: 'foto9.jpg',  alt: 'Hendry & Nesra – Momen Berharga'        },
-  { src: 'foto10.jpg', alt: 'Hendry & Nesra – Bahagia'               },
-  { src: 'foto11.jpg', alt: 'Hendry & Nesra – Romantis'              },
-  { src: 'foto12.jpg', alt: 'Hendry & Nesra – Janji Suci'            },
+  { src: 'foto3.jpg', alt: 'Hendry & Nesra – Momen Romantis' },
+  { src: 'foto1.jpg', alt: 'Hendry & Nesra – Elegan Bersama' },
+  { src: 'foto2.jpg', alt: 'Hendry & Nesra – Pose Indah' },
+  { src: 'foto5.jpg', alt: 'Hendry & Nesra – Busana Adat Nias' },
+  { src: 'foto6.jpg', alt: 'Hendry & Nesra – Ceria' },
+  { src: 'foto8.jpg', alt: 'Hendry & Nesra – Penuh Kasih' },
+  { src: 'foto4.jpg', alt: 'Hendry & Nesra – Klasik' },
+  { src: 'foto9.jpg', alt: 'Hendry & Nesra – Momen Berharga' },
+  { src: 'foto10.jpg', alt: 'Hendry & Nesra – Bahagia' },
+  { src: 'foto11.jpg', alt: 'Hendry & Nesra – Romantis' },
+  { src: 'foto12.jpg', alt: 'Hendry & Nesra – Janji Suci' },
 ];
 
 let lightboxIndex = 0;
-let musicPlaying  = false;
-let ytPlayer      = null;
-let ytReady       = false;
+let musicPlaying = false;
+let ytPlayer = null;
+let ytReady = false;
 
 // ── FIREFLY BACKGROUND ANIMATION ─────────────────────────────
 function createFireflies() {
   const container = document.getElementById('fireflyContainer');
   if (!container) return;
-  
+
   const count = 15;
   for (let i = 0; i < count; i++) {
     const fly = document.createElement('div');
     fly.className = 'firefly';
-    
+
     const size = Math.random() * 5 + 3;
     const left = Math.random() * 100;
-    const top  = Math.random() * 100;
-    const dur  = Math.random() * 8 + 8;
+    const top = Math.random() * 100;
+    const dur = Math.random() * 8 + 8;
     const delay = Math.random() * 10;
-    
+
     // Random movement offsets
-    const fx  = (Math.random() - 0.5) * 200;
-    const fy  = (Math.random() - 0.5) * 300;
+    const fx = (Math.random() - 0.5) * 200;
+    const fy = (Math.random() - 0.5) * 300;
     const fx2 = (Math.random() - 0.5) * 250;
     const fy2 = (Math.random() - 0.5) * 350;
-    
+
     fly.style.cssText = `
       width: ${size}px;
       height: ${size}px;
@@ -75,16 +75,16 @@ function loadGuestName() {
   if (name) {
     const decoded = decodeURIComponent(name);
     const coverEl = document.getElementById('coverGuestName');
-    const heroEl  = document.getElementById('heroGuestName');
+    const heroEl = document.getElementById('heroGuestName');
     if (coverEl) coverEl.textContent = decoded;
-    if (heroEl)  heroEl.textContent  = decoded;
+    if (heroEl) heroEl.textContent = decoded;
   }
 }
 
 // ── OPEN INVITATION ───────────────────────────────────────────
 function openInvitation() {
   const cover = document.getElementById('coverScreen');
-  const main  = document.getElementById('mainContent');
+  const main = document.getElementById('mainContent');
 
   // Fade out cover
   cover.classList.add('fade-out');
@@ -127,7 +127,7 @@ function onYouTubeIframeAPIReady() {
     videoId: YT_VIDEO_ID,
     playerVars: {
       autoplay: 0,
-      loop:     1,
+      loop: 1,
       playlist: YT_VIDEO_ID,
       controls: 0,
       disablekb: 1,
@@ -137,11 +137,11 @@ function onYouTubeIframeAPIReady() {
       iv_load_policy: 3,
     },
     events: {
-      onReady: function(e) {
+      onReady: function (e) {
         ytReady = true;
         e.target.setVolume(45);
       },
-      onStateChange: function(e) {
+      onStateChange: function (e) {
         // Keep looping
         if (e.data === YT.PlayerState.ENDED) {
           ytPlayer.playVideo();
@@ -166,7 +166,7 @@ function startMusic() {
       ytPlayer.playVideo();
       musicPlaying = true;
       updateMusicBtn();
-    } catch(e) {
+    } catch (e) {
       musicPlaying = false;
       updateMusicBtn();
     }
@@ -188,7 +188,7 @@ function toggleMusic() {
       musicPlaying = true;
     }
     updateMusicBtn();
-  } catch(e) {}
+  } catch (e) { }
 }
 
 function updateMusicBtn() {
@@ -267,13 +267,13 @@ function fallbackCopy(text) {
   const el = document.createElement('textarea');
   el.value = text;
   el.style.position = 'fixed';
-  el.style.opacity  = '0';
+  el.style.opacity = '0';
   document.body.appendChild(el);
   el.focus(); el.select();
   try {
     document.execCommand('copy');
     toast('Tautan undangan berhasil disalin!');
-  } catch(e) {}
+  } catch (e) { }
   document.body.removeChild(el);
 }
 
@@ -286,7 +286,7 @@ function toast(msg, duration = 3000) {
     el.style.cssText = 'position:fixed;bottom:5.5rem;left:50%;transform:translateX(-50%);background:#311B1B;color:white;padding:0.75rem 1.8rem;border-radius:50px;font-weight:700;font-size:0.85rem;z-index:9999;box-shadow:0 6px 30px rgba(0,0,0,0.3);white-space:nowrap;font-family:Montserrat,sans-serif;letter-spacing:0.5px;display:none;';
     document.body.appendChild(el);
   }
-  el.textContent  = msg;
+  el.textContent = msg;
   el.style.display = 'block';
   clearTimeout(el._timer);
   el._timer = setTimeout(() => { el.style.display = 'none'; }, duration);
@@ -302,9 +302,9 @@ function updateCountdown() {
   const diff = WEDDING_DATE - new Date();
   if (diff <= 0) {
     const timer = document.getElementById('countdownTimer');
-    const done  = document.getElementById('countdownDone');
+    const done = document.getElementById('countdownDone');
     if (timer) timer.classList.add('hidden');
-    if (done)  done.classList.remove('hidden');
+    if (done) done.classList.remove('hidden');
     // Also update hero mini countdown
     ['heroCdD', 'heroCdH', 'heroCdM', 'heroCdS'].forEach(id => {
       const el = document.getElementById(id);
@@ -314,28 +314,28 @@ function updateCountdown() {
   }
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000)  / 60000);
-  const s = Math.floor((diff % 60000)    / 1000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
 
   // Main countdown
   const elD = document.getElementById('cdDays');
   const elH = document.getElementById('cdHours');
   const elM = document.getElementById('cdMinutes');
   const elS = document.getElementById('cdSeconds');
-  if (elD) elD.textContent = String(d).padStart(2,'0');
-  if (elH) elH.textContent = String(h).padStart(2,'0');
-  if (elM) elM.textContent = String(m).padStart(2,'0');
-  if (elS) elS.textContent = String(s).padStart(2,'0');
+  if (elD) elD.textContent = String(d).padStart(2, '0');
+  if (elH) elH.textContent = String(h).padStart(2, '0');
+  if (elM) elM.textContent = String(m).padStart(2, '0');
+  if (elS) elS.textContent = String(s).padStart(2, '0');
 
   // Hero mini countdown
   const hD = document.getElementById('heroCdD');
   const hH = document.getElementById('heroCdH');
   const hM = document.getElementById('heroCdM');
   const hS = document.getElementById('heroCdS');
-  if (hD) hD.textContent = String(d).padStart(2,'0');
-  if (hH) hH.textContent = String(h).padStart(2,'0');
-  if (hM) hM.textContent = String(m).padStart(2,'0');
-  if (hS) hS.textContent = String(s).padStart(2,'0');
+  if (hD) hD.textContent = String(d).padStart(2, '0');
+  if (hH) hH.textContent = String(h).padStart(2, '0');
+  if (hM) hM.textContent = String(m).padStart(2, '0');
+  if (hS) hS.textContent = String(s).padStart(2, '0');
 }
 
 // ── SCROLL ANIMATIONS ─────────────────────────────────────────
@@ -361,7 +361,7 @@ function triggerVisibleAnimations() {
 // ── NAVIGATION BAR & SCROLLSPY ────────────────────────────────
 function initNavBar() {
   const hero = document.getElementById('hero');
-  const nav  = document.getElementById('navBar');
+  const nav = document.getElementById('navBar');
   if (!hero || !nav) return;
 
   const heroObs = new IntersectionObserver(entries => {
@@ -393,15 +393,15 @@ function initNavBar() {
 
 // ── GALLERY SLIDER CAROUSEL ───────────────────────────────────
 let sliderCurrentIndex = 0;
-let sliderAutoTimer    = null;
-let sliderProgress     = 0;
+let sliderAutoTimer = null;
+let sliderProgress = 0;
 let sliderProgressTimer = null;
-const SLIDER_INTERVAL  = 3500; // ms between auto-slides
-const SLIDER_TICK      = 50;   // progress bar update interval (ms)
+const SLIDER_INTERVAL = 3500; // ms between auto-slides
+const SLIDER_TICK = 50;   // progress bar update interval (ms)
 
 function buildGallerySlider() {
-  const track   = document.getElementById('sliderTrack');
-  const dotsEl  = document.getElementById('sliderDots');
+  const track = document.getElementById('sliderTrack');
+  const dotsEl = document.getElementById('sliderDots');
   const wrapper = document.getElementById('sliderWrapper');
   if (!track) return;
 
@@ -456,9 +456,9 @@ function buildGallerySlider() {
 
 // Render current position
 function sliderRender(animated = true) {
-  const track   = document.getElementById('sliderTrack');
+  const track = document.getElementById('sliderTrack');
   const counter = document.getElementById('sliderCounter');
-  const dotsEl  = document.getElementById('sliderDots');
+  const dotsEl = document.getElementById('sliderDots');
   if (!track) return;
 
   if (!animated) track.classList.add('is-dragging');
@@ -530,22 +530,22 @@ function sliderStopProgress() {
 }
 
 // ── Drag / Swipe (Touch + Mouse) ──────────────────
-let dragStartX  = 0;
+let dragStartX = 0;
 let dragCurrentX = 0;
-let isDragging  = false;
+let isDragging = false;
 let wasDragging = false;
 const DRAG_THRESHOLD = 50; // px minimum for slide change
 
 function initSliderDrag(track, wrapper) {
   // Touch events
   wrapper.addEventListener('touchstart', onDragStart, { passive: true });
-  wrapper.addEventListener('touchmove',  onDragMove,  { passive: true });
-  wrapper.addEventListener('touchend',   onDragEnd,   { passive: true });
+  wrapper.addEventListener('touchmove', onDragMove, { passive: true });
+  wrapper.addEventListener('touchend', onDragEnd, { passive: true });
 
   // Mouse events
-  wrapper.addEventListener('mousedown',  onDragStart);
-  window.addEventListener('mousemove',   onDragMove);
-  window.addEventListener('mouseup',     onDragEnd);
+  wrapper.addEventListener('mousedown', onDragStart);
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup', onDragEnd);
 }
 
 function getClientX(e) {
@@ -553,9 +553,9 @@ function getClientX(e) {
 }
 
 function onDragStart(e) {
-  dragStartX  = getClientX(e);
+  dragStartX = getClientX(e);
   dragCurrentX = dragStartX;
-  isDragging  = true;
+  isDragging = true;
   wasDragging = false;
   sliderPauseAuto();
   const track = document.getElementById('sliderTrack');
@@ -600,14 +600,14 @@ function onDragEnd(e) {
 document.addEventListener('keydown', e => {
   const lb = document.getElementById('lightbox');
   if (lb && !lb.classList.contains('hidden')) return; // lightbox handles its own keys
-  if (e.key === 'ArrowLeft')  { sliderMove(-1); }
+  if (e.key === 'ArrowLeft') { sliderMove(-1); }
   if (e.key === 'ArrowRight') { sliderMove(1); }
 });
 
 // ── LIGHTBOX FULLSCREEN ───────────────────────────
 function openLightbox(idx) {
   lightboxIndex = idx;
-  const lb  = document.getElementById('lightbox');
+  const lb = document.getElementById('lightbox');
   const img = document.getElementById('lightboxImg');
   if (!lb || !img) return;
   img.src = GALLERY_PHOTOS[idx].src;
@@ -656,9 +656,9 @@ function lightboxNext(e) {
 document.addEventListener('keydown', e => {
   const lb = document.getElementById('lightbox');
   if (!lb || lb.classList.contains('hidden')) return;
-  if (e.key === 'ArrowLeft')  lightboxPrev();
+  if (e.key === 'ArrowLeft') lightboxPrev();
   if (e.key === 'ArrowRight') lightboxNext();
-  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'Escape') closeLightbox();
 });
 
 
@@ -669,7 +669,7 @@ const GOOGLE_SHEET_URL = '';
 function getSavedGuests() {
   const saved = localStorage.getItem('wedding_guests_data');
   if (saved) {
-    try { return JSON.parse(saved); } catch (e) {}
+    try { return JSON.parse(saved); } catch (e) { }
   }
   return [
     {
@@ -697,14 +697,14 @@ function saveGuest(guest) {
 
 function submitRSVP(e) {
   e.preventDefault();
-  const btn    = document.getElementById('rsvpSubmitBtn');
-  const name   = document.getElementById('rsvpName').value.trim();
-  const phone  = document.getElementById('rsvpPhone').value.trim();
+  const btn = document.getElementById('rsvpSubmitBtn');
+  const name = document.getElementById('rsvpName').value.trim();
+  const phone = document.getElementById('rsvpPhone').value.trim();
   const attend = document.getElementById('rsvpAttend').value;
   const guests = document.getElementById('rsvpGuests').value;
 
   btn.textContent = 'Mengirim...';
-  btn.disabled    = true;
+  btn.disabled = true;
 
   const now = new Date();
   const timestamp = now.toLocaleDateString('id-ID', {
@@ -776,14 +776,14 @@ function closeGuestModalOverlay(e) {
 
 function renderGuestTable() {
   const guests = getSavedGuests();
-  const tbody  = document.getElementById('guestTableBody');
+  const tbody = document.getElementById('guestTableBody');
   if (!tbody) return;
 
   tbody.innerHTML = '';
-  let countHadir   = 0;
-  let countTidak   = 0;
+  let countHadir = 0;
+  let countTidak = 0;
   let countMungkin = 0;
-  let totalPax     = 0;
+  let totalPax = 0;
 
   if (guests.length === 0) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">Belum ada tamu yang mengisi konfirmasi.</td></tr>';
@@ -819,13 +819,13 @@ function renderGuestTable() {
     });
   }
 
-  const elHadir   = document.getElementById('sumHadir');
-  const elPax     = document.getElementById('sumPax');
-  const elTidak   = document.getElementById('sumTidak');
+  const elHadir = document.getElementById('sumHadir');
+  const elPax = document.getElementById('sumPax');
+  const elTidak = document.getElementById('sumTidak');
   const elMungkin = document.getElementById('sumMungkin');
-  if (elHadir)   elHadir.textContent   = countHadir;
-  if (elPax)     elPax.textContent     = totalPax;
-  if (elTidak)   elTidak.textContent   = countTidak;
+  if (elHadir) elHadir.textContent = countHadir;
+  if (elPax) elPax.textContent = totalPax;
+  if (elTidak) elTidak.textContent = countTidak;
   if (elMungkin) elMungkin.textContent = countMungkin;
 }
 
@@ -839,20 +839,20 @@ function exportGuestCSV() {
   let csvContent = 'No,Nama Lengkap,Nomor WhatsApp,Status Kehadiran,Jumlah Tamu (Pax),Waktu Konfirmasi\n';
 
   guests.forEach((g, idx) => {
-    const no      = idx + 1;
-    const name    = '"' + (g.nama || '').replace(/"/g, '""') + '"';
-    const phone   = '"' + (g.telepon || '').replace(/"/g, '""') + '"';
-    let status    = 'Akan Hadir';
+    const no = idx + 1;
+    const name = '"' + (g.nama || '').replace(/"/g, '""') + '"';
+    const phone = '"' + (g.telepon || '').replace(/"/g, '""') + '"';
+    let status = 'Akan Hadir';
     if (g.hadir === 'tidak') status = 'Berhalangan';
     if (g.hadir === 'mungkin') status = 'Mungkin Hadir';
-    const pax     = g.hadir === 'hadir' ? g.tamu : '0';
-    const time    = '"' + (g.waktu || '') + '"';
+    const pax = g.hadir === 'hadir' ? g.tamu : '0';
+    const time = '"' + (g.waktu || '') + '"';
 
     csvContent += `${no},${name},${phone},${status},${pax},${time}\n`;
   });
 
   const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url  = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
   link.setAttribute('download', 'Daftar_Tamu_Hendry_Nesra.csv');
@@ -874,7 +874,7 @@ const ucapanData = [
 function submitUcapan(e) {
   e.preventDefault();
   const name = document.getElementById('ucapanName').value.trim();
-  const msg  = document.getElementById('ucapanText').value.trim();
+  const msg = document.getElementById('ucapanText').value.trim();
   if (!name || !msg) return;
 
   ucapanData.unshift({ name, msg });
@@ -924,11 +924,11 @@ function initQRCode() {
   if (!el || typeof QRCode === 'undefined') return;
   el.innerHTML = '';
   new QRCode(el, {
-    text:         WEDDING_URL,
-    width:        180,
-    height:       180,
-    colorDark:    '#311B1B',
-    colorLight:   '#FFFFFF',
+    text: WEDDING_URL,
+    width: 180,
+    height: 180,
+    colorDark: '#311B1B',
+    colorLight: '#FFFFFF',
     correctLevel: QRCode.CorrectLevel.H,
   });
 }
@@ -936,9 +936,9 @@ function initQRCode() {
 // ── OUTSIDE CLICK HANDLER ─────────────────────────────────────
 document.addEventListener('click', e => {
   const menu = document.getElementById('shareMenu');
-  const btn  = document.getElementById('shareBtn');
+  const btn = document.getElementById('shareBtn');
   if (menu && !menu.classList.contains('hidden') &&
-      !menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+    !menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
     menu.classList.add('hidden');
   }
 
@@ -979,12 +979,12 @@ function createParticle() {
 
   const particle = document.createElement('div');
   particle.classList.add('particle');
-  
+
   // Randomize size, position, and duration
   const size = Math.random() * 8 + 4; // 4px to 12px
   particle.style.width = size + 'px';
   particle.style.height = size + 'px';
-  
+
   particle.style.left = Math.random() * 100 + 'vw';
   particle.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4s to 7s
   particle.style.animationDelay = Math.random() * 2 + 's';
@@ -1012,7 +1012,7 @@ function showLiveToast() {
 
   // Pick a random wish
   const randomWish = ucapanData[Math.floor(Math.random() * ucapanData.length)];
-  
+
   document.getElementById('toastName').textContent = randomWish.name;
   document.getElementById('toastMsg').textContent = randomWish.msg;
   document.getElementById('toastAvatar').textContent = randomWish.name.charAt(0).toUpperCase();

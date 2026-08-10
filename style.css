@@ -2723,6 +2723,7 @@ body {
 .guest-table-wrap::-webkit-scrollbar-track {
   background: transparent;
 }
+
 /* ---------------------------------------------------------------
    SPLASH SCREEN
    --------------------------------------------------------------- */
@@ -2759,8 +2760,15 @@ body {
 }
 
 @keyframes pulseLogo {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.05); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
 /* ---------------------------------------------------------------
@@ -2785,10 +2793,23 @@ body {
 }
 
 @keyframes fall {
-  0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(105vh) translateX(20px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* ---------------------------------------------------------------
@@ -2864,7 +2885,8 @@ body {
   .live-toast {
     left: 1rem;
     right: 1rem;
-    bottom: 5.5rem; /* Above nav bar */
+    bottom: 5.5rem;
+    /* Above nav bar */
     max-width: none;
   }
 }
