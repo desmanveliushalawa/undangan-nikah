@@ -418,7 +418,7 @@ body {
   inset: 0;
   z-index: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center 25%;
   background-attachment: fixed;
   animation: zoomSlowBg 20s ease-in-out alternate infinite;
   will-change: transform;
@@ -1076,7 +1076,7 @@ body {
 }
 
 /* All section content sits above the bg rotator */
-.section>*:not(.section-bg-rotator):not(.section-bg-overlay) {
+.section>*:not(.section-bg-rotator):not(.section-bg-overlay):not(.section-bg-fixed) {
   position: relative;
   z-index: 2;
 }
@@ -1406,7 +1406,6 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 .section-acara {
   background: transparent;
-  color: var(--text-on-dark);
 }
 
 .acara-cards {
@@ -2442,6 +2441,8 @@ body {
 
 .angpao-cards {
   display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   justify-content: center;
   max-width: 480px;
   width: 100%;
@@ -2721,4 +2722,149 @@ body {
 .ucapan-list::-webkit-scrollbar-track,
 .guest-table-wrap::-webkit-scrollbar-track {
   background: transparent;
+}
+/* ---------------------------------------------------------------
+   SPLASH SCREEN
+   --------------------------------------------------------------- */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.splash-content {
+  text-align: center;
+  animation: pulseLogo 2s infinite alternate ease-in-out;
+}
+
+.splash-logo {
+  font-family: 'Arizonia', cursive;
+  font-size: 5rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  text-shadow: var(--gold-glow);
+}
+
+.splash-text {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 3px;
+  color: var(--gold-light);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+@keyframes pulseLogo {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------
+   PARTICLES (GOLD LEAVES / DUST)
+   --------------------------------------------------------------- */
+.particles-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  top: -10px;
+  background: var(--gold-light);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--gold);
+  opacity: 0;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(105vh) translateX(20px) rotate(360deg); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------
+   LIVE TOAST NOTIFICATION
+   --------------------------------------------------------------- */
+.live-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 1.5rem;
+  max-width: 320px;
+  background: rgba(45, 10, 10, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  z-index: 2500;
+  box-shadow: var(--shadow-deep);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+  transform: translateY(150%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.live-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.live-toast .toast-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gold-grad);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arizonia', cursive;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.live-toast .toast-body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.live-toast .toast-name {
+  color: var(--gold-light);
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.live-toast .toast-msg {
+  color: #fff;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .live-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 5.5rem; /* Above nav bar */
+    max-width: none;
+  }
 }

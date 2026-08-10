@@ -4,7 +4,7 @@
    ================================================================ */
 
 // ── CONFIG ────────────────────────────────────────────────────
-const WEDDING_DATE = new Date('2026-08-25T10:00:00+07:00');
+const WEDDING_DATE = new Date('2026-08-26T10:00:00+07:00');
 const WEDDING_URL  = window.location.href;
 
 // YouTube Video ID (lagu tema)
@@ -215,7 +215,7 @@ function shareWhatsApp() {
     'Undangan Pernikahan Kudus\n\n' +
     'Sertu Hendry Susanto Halawa\n' +
     '& Nesra Menivil Larosa, S.Pd\n\n' +
-    'Sabtu, 29 Agustus 2026\n' +
+    'Sabtu, 26 Agustus 2026\n' +
     'Pukul 10.00 & 12.00 WIB\n' +
     'Desa Hiliadulo, Nias Selatan\n\n' +
     'Buka undangan online kami di:\n' +
@@ -231,7 +231,7 @@ function shareFacebook() {
 }
 
 function shareTwitter() {
-  const text = encodeURIComponent('Undangan Pernikahan Hendry & Nesra – 29 Agustus 2026 | Nias Selatan');
+  const text = encodeURIComponent('Undangan Pernikahan Hendry & Nesra – 26 Agustus 2026 | Nias Selatan');
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(WEDDING_URL), '_blank');
   hideShareMenu();
 }
@@ -740,6 +740,18 @@ function submitRSVP(e) {
     document.getElementById('rsvpForm').classList.add('hidden');
     document.getElementById('rsvpSuccess').classList.remove('hidden');
     toast('Konfirmasi kehadiran berhasil dicatat!');
+
+    // WhatsApp Redirect
+    const waNumber = '6282361594365';
+    let waText = `Halo Hendry & Nesra,\nSaya *${name}* ingin mengonfirmasi bahwa saya `;
+    if (attend === 'hadir') {
+      waText += `*Akan Hadir* bersama *${guests}* orang.\n\nSemoga lancar sampai hari H!`;
+    } else {
+      waText += `*Maaf, Tidak Bisa Hadir*.\n\nSelamat atas pernikahannya, semoga bahagia selalu!`;
+    }
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+    window.open(waUrl, '_blank');
+
   }, 800);
 }
 
@@ -943,3 +955,79 @@ document.addEventListener('DOMContentLoaded', () => {
   loadYouTubeAPI();
   document.body.style.overflow = 'hidden';
 });
+
+/* ---------------------------------------------------------------
+   SPLASH SCREEN LOGIC
+   --------------------------------------------------------------- */
+window.addEventListener('load', () => {
+  const splash = document.getElementById('splashScreen');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      splash.style.visibility = 'hidden';
+      setTimeout(() => splash.remove(), 800);
+    }, 1500); // 1.5 seconds minimum splash screen
+  }
+});
+
+/* ---------------------------------------------------------------
+   PARTICLES LOGIC
+   --------------------------------------------------------------- */
+function createParticle() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+
+  const particle = document.createElement('div');
+  particle.classList.add('particle');
+  
+  // Randomize size, position, and duration
+  const size = Math.random() * 8 + 4; // 4px to 12px
+  particle.style.width = size + 'px';
+  particle.style.height = size + 'px';
+  
+  particle.style.left = Math.random() * 100 + 'vw';
+  particle.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4s to 7s
+  particle.style.animationDelay = Math.random() * 2 + 's';
+
+  container.appendChild(particle);
+
+  // Remove particle after animation ends to free up memory
+  setTimeout(() => {
+    particle.remove();
+  }, 10000);
+}
+
+// Create particles periodically
+setInterval(createParticle, 400);
+
+/* ---------------------------------------------------------------
+   LIVE TOAST LOGIC
+   --------------------------------------------------------------- */
+let liveToastTimer;
+function showLiveToast() {
+  if (!ucapanData || ucapanData.length === 0) return;
+
+  const toastContainer = document.getElementById('liveToast');
+  if (!toastContainer) return;
+
+  // Pick a random wish
+  const randomWish = ucapanData[Math.floor(Math.random() * ucapanData.length)];
+  
+  document.getElementById('toastName').textContent = randomWish.name;
+  document.getElementById('toastMsg').textContent = randomWish.msg;
+  document.getElementById('toastAvatar').textContent = randomWish.name.charAt(0).toUpperCase();
+
+  toastContainer.classList.add('show');
+
+  // Hide after 5 seconds
+  setTimeout(() => {
+    toastContainer.classList.remove('show');
+  }, 5000);
+}
+
+// Initial start of live toast loop after a delay
+setTimeout(() => {
+  showLiveToast();
+  // Show a toast every 15 seconds
+  liveToastTimer = setInterval(showLiveToast, 15000);
+}, 5000);
