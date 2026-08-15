@@ -31,11 +31,7 @@
     href="https://fonts.googleapis.com/css2?family=Arizonia&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
 
-  <!-- Bootstrap Icons (for heart icons, social icons) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
-
-  <!-- QR Code Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- QR Code: lightweight inline canvas solution in script.js -->
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -64,12 +60,11 @@
   </svg>
 
   <!-- ═══════════════════════════════════════════════════════════
-       BACKGROUND MUSIC (YouTube IFrame API – Hidden Player)
+       BACKGROUND MUSIC (Local MP3 – HTML5 Audio)
        ═══════════════════════════════════════════════════════════ -->
-  <div id="ytPlayerWrap"
-    style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden;z-index:-1;">
-    <div id="ytPlayer"></div>
-  </div>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="perfect.mp3" type="audio/mpeg" />
+  </audio>
 
   <!-- ═══════════════════════════════════════════════════════════
        FIREFLY BACKGROUND ANIMATION
@@ -116,6 +111,19 @@
           <p class="cover-guest-name" id="coverGuestName">Bapak/Ibu/Saudara/i</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- TRANSITION OVERLAY (H&N Animation) -->
+  <div id="transitionOverlay" class="transition-overlay hidden">
+    <div class="transition-content">
+      <div class="transition-rings">
+        <svg viewBox="0 0 100 60" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="35" cy="30" r="20" />
+          <circle cx="65" cy="30" r="20" />
+        </svg>
+      </div>
+      <h1 class="transition-logo">H <span>&amp;</span> N</h1>
     </div>
   </div>
 
@@ -385,9 +393,9 @@
         <!-- 1. Pemberkatan Nikah -->
         <div class="acara-card">
           <div class="acara-heart-divider">
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
           <h3 class="acara-type">Pemberkatan Nikah</h3>
           <p class="acara-detail-row">Selasa, 25 Agustus 2026<br />Pukul 10.00 WIB</p>
@@ -418,9 +426,9 @@
         <!-- 2. Acara Adat -->
         <div class="acara-card">
           <div class="acara-heart-divider">
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
           <h3 class="acara-type">Acara Adat</h3>
           <p class="acara-detail-row">Rabu, 26 Agustus 2026<br />Pukul 11.00 WIB</p>
@@ -451,9 +459,9 @@
         <!-- 3. Resepsi Pernikahan -->
         <div class="acara-card">
           <div class="acara-heart-divider">
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
-            <i class="bi bi-heart-fill"></i>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
           <h3 class="acara-type">Resepsi Pernikahan</h3>
           <p class="acara-detail-row">Sabtu, 29 Agustus 2026<br />Pukul 11.00 WIB – Selesai</p>

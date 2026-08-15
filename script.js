@@ -7,8 +7,8 @@
 const WEDDING_DATE = new Date('2026-08-26T10:00:00+07:00');
 const WEDDING_URL = window.location.href;
 
-// YouTube Video ID (lagu tema)
-const YT_VIDEO_ID = '82vC07ygl0A';
+// Background Music Element
+let bgMusic = null;
 
 // 11 Foto Galeri HD
 const GALLERY_PHOTOS = [
@@ -27,8 +27,6 @@ const GALLERY_PHOTOS = [
 
 let lightboxIndex = 0;
 let musicPlaying = false;
-let ytPlayer = null;
-let ytReady = false;
 
 // ── FIREFLY BACKGROUND ANIMATION ─────────────────────────────
 function createFireflies() {
@@ -85,110 +83,93 @@ function loadGuestName() {
 function openInvitation() {
   const cover = document.getElementById('coverScreen');
   const main = document.getElementById('mainContent');
+  const overlay = document.getElementById('transitionOverlay');
 
   // Fade out cover
   cover.classList.add('fade-out');
 
   setTimeout(() => {
     cover.style.display = 'none';
-    main.classList.remove('hidden');
-    document.body.style.overflow = 'auto';
+    
+    // Show and animate transition overlay
+    if (overlay) {
+      overlay.classList.remove('hidden');
+      setTimeout(() => {
+        overlay.classList.add('active');
+        overlay.classList.add('animate');
+      }, 50);
 
-    // Auto-play music
-    startMusic();
+      // After animation, hide overlay and show main content
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+          main.classList.remove('hidden');
+          document.body.style.overflow = 'auto';
 
-    // Init components
-    initCountdown();
-    initScrollAnimations();
-    buildGallerySlider();
-    initQRCode();
-    initNavBar();
-    updateStoryUrl();
+          // Auto-play music
+          startMusic();
 
-    // Trigger initial fade-in
-    setTimeout(() => triggerVisibleAnimations(), 150);
+          // Init components
+          initCountdown();
+          initScrollAnimations();
+          buildGallerySlider();
+          initQRCode();
+          initNavBar();
+          updateStoryUrl();
+
+          // Trigger initial fade-in
+          setTimeout(() => triggerVisibleAnimations(), 150);
+        }, 600);
+      }, 1800);
+    } else {
+      // Fallback if overlay not found
+      main.classList.remove('hidden');
+      document.body.style.overflow = 'auto';
+      startMusic();
+      initCountdown();
+      initScrollAnimations();
+      buildGallerySlider();
+      initQRCode();
+      initNavBar();
+      updateStoryUrl();
+      setTimeout(() => triggerVisibleAnimations(), 150);
+    }
   }, 800);
 }
 
-// ── YOUTUBE IFRAME API ────────────────────────────────────────
-function loadYouTubeAPI() {
-  if (typeof YT !== 'undefined' && YT.Player) {
-    onYouTubeIframeAPIReady();
-    return;
-  }
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
-}
-
-// Called automatically by YT API when loaded
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    videoId: YT_VIDEO_ID,
-    playerVars: {
-      autoplay: 0,
-      loop: 1,
-      playlist: YT_VIDEO_ID,
-      controls: 0,
-      disablekb: 1,
-      fs: 0,
-      modestbranding: 1,
-      rel: 0,
-      iv_load_policy: 3,
-    },
-    events: {
-      onReady: function (e) {
-        ytReady = true;
-        e.target.setVolume(45);
-      },
-      onStateChange: function (e) {
-        // Keep looping
-        if (e.data === YT.PlayerState.ENDED) {
-          ytPlayer.playVideo();
-        }
-        // Sync button state
-        if (e.data === YT.PlayerState.PLAYING) {
-          musicPlaying = true;
-        } else if (e.data === YT.PlayerState.PAUSED) {
-          musicPlaying = false;
-        }
-        updateMusicBtn();
-      },
-    }
-  });
-}
-
-// ── BACKGROUND MUSIC ─────────────────────────────────────────
+// ── BACKGROUND MUSIC (HTML5 Audio) ────────────────────────────
 function startMusic() {
-  if (ytReady && ytPlayer) {
-    try {
-      ytPlayer.setVolume(45);
-      ytPlayer.playVideo();
+  if (!bgMusic) bgMusic = document.getElementById('bgMusic');
+  if (!bgMusic) return;
+  bgMusic.volume = 0.45;
+  const playPromise = bgMusic.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
       musicPlaying = true;
       updateMusicBtn();
-    } catch (e) {
+    }).catch(() => {
       musicPlaying = false;
       updateMusicBtn();
-    }
-  } else {
-    // Retry after a short delay if API not ready yet
-    setTimeout(startMusic, 800);
+    });
   }
 }
 
 function toggleMusic() {
-  if (!ytPlayer || !ytReady) return;
-  try {
-    const state = ytPlayer.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      ytPlayer.pauseVideo();
-      musicPlaying = false;
-    } else {
-      ytPlayer.playVideo();
+  if (!bgMusic) bgMusic = document.getElementById('bgMusic');
+  if (!bgMusic) return;
+  if (musicPlaying) {
+    bgMusic.pause();
+    musicPlaying = false;
+  } else {
+    bgMusic.volume = 0.45;
+    bgMusic.play().then(() => {
       musicPlaying = true;
-    }
-    updateMusicBtn();
-  } catch (e) { }
+      updateMusicBtn();
+    }).catch(() => {});
+  }
+  updateMusicBtn();
 }
 
 function updateMusicBtn() {
@@ -918,19 +899,21 @@ function copyRekening(bank, noRek, holder) {
   }
 }
 
-// ── QR CODE GENERATOR ─────────────────────────────────────────
+// ── QR CODE GENERATOR (Lightweight inline – no external lib) ──
 function initQRCode() {
   const el = document.getElementById('qrCodeEl');
-  if (!el || typeof QRCode === 'undefined') return;
+  if (!el) return;
   el.innerHTML = '';
-  new QRCode(el, {
-    text: WEDDING_URL,
-    width: 180,
-    height: 180,
-    colorDark: '#311B1B',
-    colorLight: '#FFFFFF',
-    correctLevel: QRCode.CorrectLevel.H,
-  });
+  // Use a free QR API as image (no JS library needed)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(WEDDING_URL)}&color=31-1B-1B&bgcolor=FF-FF-FF&format=svg`;
+  const img = document.createElement('img');
+  img.src = qrUrl;
+  img.alt = 'QR Code Undangan';
+  img.width = 180;
+  img.height = 180;
+  img.style.borderRadius = '8px';
+  img.loading = 'lazy';
+  el.appendChild(img);
 }
 
 // ── OUTSIDE CLICK HANDLER ─────────────────────────────────────
@@ -952,7 +935,7 @@ document.addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', () => {
   createFireflies();
   loadGuestName();
-  loadYouTubeAPI();
+  bgMusic = document.getElementById('bgMusic');
   document.body.style.overflow = 'hidden';
 });
 
@@ -998,7 +981,7 @@ function createParticle() {
 }
 
 // Create particles periodically
-setInterval(createParticle, 400);
+setInterval(createParticle, 1200);
 
 /* ---------------------------------------------------------------
    LIVE TOAST LOGIC
