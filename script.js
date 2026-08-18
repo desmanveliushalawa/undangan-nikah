@@ -7,6 +7,41 @@
 const WEDDING_DATE = new Date('2026-08-26T10:00:00+07:00');
 const WEDDING_URL = window.location.href;
 
+// ── SCROLL LOCK MANAGEMENT ────────────────────────────────────
+// Uses a CSS class on <body> with position:fixed to reliably
+// prevent scroll on both mobile and desktop browsers.
+let _scrollLockCount = 0;
+let _savedScrollY = 0;
+
+function lockScroll() {
+  if (_scrollLockCount === 0) {
+    _savedScrollY = window.scrollY;
+    document.body.classList.add('scroll-locked');
+    document.body.style.top = `-${_savedScrollY}px`;
+  }
+  _scrollLockCount++;
+}
+
+function unlockScroll() {
+  _scrollLockCount = Math.max(0, _scrollLockCount - 1);
+  if (_scrollLockCount === 0) {
+    document.body.classList.remove('scroll-locked');
+    document.body.style.top = '';
+    window.scrollTo(0, _savedScrollY);
+  }
+}
+
+function forceUnlockScroll() {
+  const wasLocked = _scrollLockCount > 0;
+  _scrollLockCount = 0;
+  document.body.classList.remove('scroll-locked');
+  document.body.style.top = '';
+  document.body.style.overflow = '';
+  if (wasLocked) {
+    window.scrollTo(0, _savedScrollY);
+  }
+}
+
 // Background Music Element
 let bgMusic = null;
 
@@ -88,6 +123,15 @@ function openInvitation() {
   // Fade out cover
   cover.classList.add('fade-out');
 
+  // Safety net: guarantee scroll is unlocked after max animation time,
+  // even if setTimeout chain fails or animations stall on slow devices.
+  const safetyTimer = setTimeout(() => {
+    if (cover) { cover.style.display = 'none'; cover.style.pointerEvents = 'none'; }
+    if (overlay) { overlay.classList.add('hidden'); }
+    main.classList.remove('hidden');
+    forceUnlockScroll();
+  }, 4500);
+
   setTimeout(() => {
     cover.style.display = 'none';
     
@@ -106,7 +150,8 @@ function openInvitation() {
         setTimeout(() => {
           overlay.classList.add('hidden');
           main.classList.remove('hidden');
-          document.body.style.overflow = 'auto';
+          forceUnlockScroll();
+          clearTimeout(safetyTimer);
 
           // Auto-play music
           startMusic();
@@ -118,6 +163,7 @@ function openInvitation() {
           initQRCode();
           initNavBar();
           updateStoryUrl();
+          loadUcapanFromSheet();
 
           // Trigger initial fade-in
           setTimeout(() => triggerVisibleAnimations(), 150);
@@ -126,7 +172,8 @@ function openInvitation() {
     } else {
       // Fallback if overlay not found
       main.classList.remove('hidden');
-      document.body.style.overflow = 'auto';
+      forceUnlockScroll();
+      clearTimeout(safetyTimer);
       startMusic();
       initCountdown();
       initScrollAnimations();
@@ -134,6 +181,7 @@ function openInvitation() {
       initQRCode();
       initNavBar();
       updateStoryUrl();
+      loadUcapanFromSheet();
       setTimeout(() => triggerVisibleAnimations(), 150);
     }
   }, 800);
@@ -595,14 +643,14 @@ function openLightbox(idx) {
   img.alt = GALLERY_PHOTOS[idx].alt;
   img.onerror = () => { img.src = 'couple.png'; };
   lb.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
   sliderPauseAuto();
 }
 
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
   if (lb) lb.classList.add('hidden');
-  document.body.style.overflow = 'auto';
+  unlockScroll();
   sliderStartAuto();
 }
 
@@ -646,6 +694,8 @@ document.addEventListener('keydown', e => {
 
 // ── RSVP & GUEST LIST MANAGEMENT ──────────────────────────────
 const GOOGLE_SHEET_URL = '';
+// URL Google Apps Script untuk Ucapan & Doa (ganti dengan URL deploy Anda)
+const UCAPAN_SHEET_URL = '';
 
 function getSavedGuests() {
   const saved = localStorage.getItem('wedding_guests_data');
@@ -721,18 +771,6 @@ function submitRSVP(e) {
     document.getElementById('rsvpForm').classList.add('hidden');
     document.getElementById('rsvpSuccess').classList.remove('hidden');
     toast('Konfirmasi kehadiran berhasil dicatat!');
-
-    // WhatsApp Redirect
-    const waNumber = '6282361594365';
-    let waText = `Halo Hendry & Nesra,\nSaya *${name}* ingin mengonfirmasi bahwa saya `;
-    if (attend === 'hadir') {
-      waText += `*Akan Hadir* bersama *${guests}* orang.\n\nSemoga lancar sampai hari H!`;
-    } else {
-      waText += `*Maaf, Tidak Bisa Hadir*.\n\nSelamat atas pernikahannya, semoga bahagia selalu!`;
-    }
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
-    window.open(waUrl, '_blank');
-
   }, 800);
 }
 
@@ -742,13 +780,13 @@ function openGuestModal() {
   if (!modal) return;
   renderGuestTable();
   modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 }
 
 function closeGuestModal() {
   const modal = document.getElementById('guestModal');
   if (modal) modal.classList.add('hidden');
-  document.body.style.overflow = 'auto';
+  unlockScroll();
 }
 
 function closeGuestModalOverlay(e) {
@@ -844,13 +882,73 @@ function exportGuestCSV() {
   toast('File spreadsheet CSV berhasil diunduh!');
 }
 
-// ── UCAPAN & DOA ──────────────────────────────────────────────
-const ucapanData = [
+// ── UCAPAN & DOA (Google Sheets Backend) ──────────────────────
+// Default ucapan (selalu ditampilkan)
+const DEFAULT_UCAPAN = [
   {
     name: 'Keluarga Besar Halawa & Larosa',
-    msg: 'Selamat menempuh hidup baru untuk Hendry & Nesra. Semoga senantiasa diberkati dalam kasih dan damai sejahtera Tuhan Yesus Kristus. Amin.'
+    msg: 'Selamat menempuh hidup baru untuk Hendry & Nesra. Semoga senantiasa diberkati dalam kasih dan damai sejahtera Tuhan Yesus Kristus. Amin.',
+    waktu: ''
   }
 ];
+
+let ucapanData = [];
+
+// Simpan & muat ucapan dari localStorage
+function getSavedUcapan() {
+  try {
+    return JSON.parse(localStorage.getItem('wedding_ucapan_data') || '[]');
+  } catch { return []; }
+}
+
+function saveUcapanLocal(ucapan) {
+  const list = getSavedUcapan();
+  list.unshift(ucapan);
+  localStorage.setItem('wedding_ucapan_data', JSON.stringify(list));
+}
+
+// Gabungkan semua sumber ucapan (lokal + sheet + default)
+function mergeUcapan(sheetData) {
+  const saved = getSavedUcapan();
+  const merged = [...saved];
+
+  // Tambahkan sheet data (hindari duplikat berdasarkan nama+pesan)
+  if (sheetData && sheetData.length > 0) {
+    sheetData.forEach(s => {
+      const exists = merged.some(m => m.name === s.name && m.msg === s.msg);
+      if (!exists) merged.push(s);
+    });
+  }
+
+  // Tambahkan default (hindari duplikat)
+  DEFAULT_UCAPAN.forEach(d => {
+    const exists = merged.some(m => m.name === d.name && m.msg === d.msg);
+    if (!exists) merged.push(d);
+  });
+
+  return merged;
+}
+
+// Memuat semua ucapan dari Google Sheets saat halaman dibuka
+function loadUcapanFromSheet() {
+  // Langsung render dari lokal + default dulu
+  ucapanData = mergeUcapan([]);
+  renderUcapan();
+
+  if (!UCAPAN_SHEET_URL) return;
+
+  fetch(UCAPAN_SHEET_URL)
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success' && result.data && result.data.length > 0) {
+        ucapanData = mergeUcapan(result.data);
+        renderUcapan();
+      }
+    })
+    .catch(err => {
+      console.log('Gagal memuat ucapan:', err);
+    });
+}
 
 function submitUcapan(e) {
   e.preventDefault();
@@ -858,29 +956,92 @@ function submitUcapan(e) {
   const msg = document.getElementById('ucapanText').value.trim();
   if (!name || !msg) return;
 
-  ucapanData.unshift({ name, msg });
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn ? btn.textContent : '';
+  if (btn) {
+    btn.textContent = 'Mengirim...';
+    btn.disabled = true;
+  }
+
+  const now = new Date();
+  const waktu = now.toLocaleDateString('id-ID', {
+    day: '2-digit', month: 'short', year: 'numeric'
+  }) + ' ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+  const newUcapan = { name, msg, waktu };
+
+  // Simpan ke localStorage
+  saveUcapanLocal(newUcapan);
+
+  // Update tampilan
+  ucapanData.unshift(newUcapan);
   renderUcapan();
   document.getElementById('ucapanName').value = '';
   document.getElementById('ucapanText').value = '';
   toast('Ucapan & doa Anda telah terkirim!');
+
+  // Kirim ke Google Sheets
+  if (UCAPAN_SHEET_URL) {
+    const formData = new FormData();
+    formData.append('nama', name);
+    formData.append('pesan', msg);
+    formData.append('waktu', waktu);
+
+    fetch(UCAPAN_SHEET_URL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    }).catch(err => console.log('Gagal kirim ucapan ke Sheet:', err));
+  }
+
+  if (btn) {
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 1000);
+  }
 }
 
 function renderUcapan() {
   const list = document.getElementById('ucapanList');
+  const counter = document.getElementById('ucapanCounter');
   if (!list) return;
   list.innerHTML = '';
-  ucapanData.forEach(u => {
+
+  // Update counter
+  if (counter) {
+    if (ucapanData.length > 0) {
+      counter.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${ucapanData.length} Ucapan & Doa`;
+      counter.style.display = '';
+    } else {
+      counter.style.display = 'none';
+    }
+  }
+
+  if (ucapanData.length === 0) {
+    list.innerHTML = '<div class="ucapan-empty">Belum ada ucapan. Jadilah yang pertama!</div>';
+    return;
+  }
+
+  ucapanData.forEach((u, idx) => {
     const item = document.createElement('div');
     item.className = 'ucapan-item';
+    // Animasi masuk bertahap
+    item.style.animationDelay = `${Math.min(idx * 0.08, 0.5)}s`;
+    const waktuHtml = u.waktu ? `<div class="ucapan-time">${esc(u.waktu)}</div>` : '';
     item.innerHTML = `
       <div class="ucapan-avatar">${esc(u.name).charAt(0).toUpperCase()}</div>
       <div class="ucapan-body">
         <div class="ucapan-sender">${esc(u.name)}</div>
         <div class="ucapan-msg">${esc(u.msg)}</div>
+        ${waktuHtml}
       </div>
     `;
     list.appendChild(item);
   });
+
+  // Scroll ke atas setelah render
+  list.scrollTop = 0;
 }
 
 function esc(s) {
@@ -936,7 +1097,7 @@ document.addEventListener('DOMContentLoaded', () => {
   createFireflies();
   loadGuestName();
   bgMusic = document.getElementById('bgMusic');
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 });
 
 /* ---------------------------------------------------------------

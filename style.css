@@ -77,6 +77,13 @@ body {
   overflow-x: hidden;
 }
 
+body.scroll-locked {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  touch-action: none;
+}
+
 .svg-defs {
   position: absolute;
   width: 0;
@@ -2383,15 +2390,37 @@ body {
   transform: translateY(-2px);
 }
 
+.ucapan-list-wrapper {
+  max-width: 480px;
+  width: 100%;
+}
+
+.ucapan-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 0.75rem;
+  padding-left: 0.2rem;
+}
+
+.ucapan-counter svg {
+  stroke: var(--gold);
+  flex-shrink: 0;
+}
+
 .ucapan-list {
   max-width: 480px;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  max-height: 350px;
+  max-height: 420px;
   overflow-y: auto;
   padding-right: 0.4rem;
+  scroll-behavior: smooth;
 }
 
 .ucapan-item {
@@ -2404,6 +2433,18 @@ body {
   gap: 0.8rem;
   box-shadow: var(--shadow-sm);
   border: var(--gold-border);
+  animation: ucapanSlideIn 0.4s ease both;
+}
+
+@keyframes ucapanSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .ucapan-avatar {
@@ -2436,6 +2477,20 @@ body {
   font-size: 0.85rem;
   color: rgba(251, 247, 240, 0.75);
   line-height: 1.5;
+}
+
+.ucapan-time {
+  font-size: 0.7rem;
+  color: var(--text-light);
+  margin-top: 0.25rem;
+  opacity: 0.7;
+}
+
+.ucapan-empty {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-light);
+  font-style: italic;
 }
 
 /* ═══════════════════════════════════════════════════════════════
