@@ -134,7 +134,7 @@ function openInvitation() {
 
   setTimeout(() => {
     cover.style.display = 'none';
-    
+
     // Show and animate transition overlay
     if (overlay) {
       overlay.classList.remove('hidden');
@@ -146,7 +146,7 @@ function openInvitation() {
       // After animation, hide overlay and show main content
       setTimeout(() => {
         overlay.classList.remove('active');
-        
+
         setTimeout(() => {
           overlay.classList.add('hidden');
           main.classList.remove('hidden');
@@ -215,7 +215,7 @@ function toggleMusic() {
     bgMusic.play().then(() => {
       musicPlaying = true;
       updateMusicBtn();
-    }).catch(() => {});
+    }).catch(() => { });
   }
   updateMusicBtn();
 }
@@ -695,7 +695,7 @@ document.addEventListener('keydown', e => {
 // ── RSVP & GUEST LIST MANAGEMENT ──────────────────────────────
 const GOOGLE_SHEET_URL = '';
 // URL Google Apps Script untuk Ucapan & Doa (ganti dengan URL deploy Anda)
-const UCAPAN_SHEET_URL = '';
+const UCAPAN_SHEET_URL = 'https://script.google.com/macros/s/AKfycbx0SgdDniwIirEUNU4jkCAuCi1_qcMLp2VWCsXFRVU7g-7H7fik3sbRCizSG4KlRCgcRA/exec';
 
 function getSavedGuests() {
   const saved = localStorage.getItem('wedding_guests_data');
