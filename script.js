@@ -1103,16 +1103,23 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ---------------------------------------------------------------
    SPLASH SCREEN LOGIC
    --------------------------------------------------------------- */
-window.addEventListener('load', () => {
+function hideSplashScreen() {
   const splash = document.getElementById('splashScreen');
-  if (splash) {
-    setTimeout(() => {
-      splash.style.opacity = '0';
-      splash.style.visibility = 'hidden';
-      setTimeout(() => splash.remove(), 800);
-    }, 1500); // 1.5 seconds minimum splash screen
+  if (splash && !splash.classList.contains('hidden-splash')) {
+    splash.classList.add('hidden-splash'); // Tandai agar tidak dijalankan 2x
+    splash.style.opacity = '0';
+    splash.style.visibility = 'hidden';
+    setTimeout(() => splash.remove(), 800);
   }
+}
+
+// Coba hilangkan splash screen setelah halaman sepenuhnya dimuat
+window.addEventListener('load', () => {
+  setTimeout(hideSplashScreen, 1500); // 1.5 detik minimum splash screen
 });
+
+// Fallback: Jika koneksi lambat dan event 'load' nyangkut, paksa tutup setelah 4 detik
+setTimeout(hideSplashScreen, 4000);
 
 /* ---------------------------------------------------------------
    PARTICLES LOGIC
