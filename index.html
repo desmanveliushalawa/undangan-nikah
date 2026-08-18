@@ -707,68 +707,70 @@
         </button>
       </div>
 
-      <div id="guestModal" class="guest-modal hidden" onclick="closeGuestModalOverlay(event)">
-        <div class="guest-modal-content">
-          <div class="guest-modal-header">
-            <div>
-              <h3 class="guest-modal-title">Rekap Tamu</h3>
-              <p class="guest-modal-subtitle">Hendry &amp; Nesra — 26 Agustus 2026</p>
-            </div>
-            <button class="guest-modal-close" onclick="closeGuestModal()">✕</button>
-          </div>
+    </section>
 
-          <!-- SUMMARY COUNTERS -->
-          <div class="guest-summary-grid">
-            <div class="summary-card summary-hadir">
-              <span class="summary-num" id="sumHadir">0</span>
-              <span class="summary-label">Akan Hadir</span>
-            </div>
-            <div class="summary-card summary-pax">
-              <span class="summary-num" id="sumPax">0</span>
-              <span class="summary-label">Total Pax</span>
-            </div>
-            <div class="summary-card summary-tidak">
-              <span class="summary-num" id="sumTidak">0</span>
-              <span class="summary-label">Berhalangan</span>
-            </div>
-            <div class="summary-card summary-mungkin">
-              <span class="summary-num" id="sumMungkin">0</span>
-              <span class="summary-label">Mungkin</span>
-            </div>
+    <!-- ADMIN GUEST LIST MODAL (Moved outside section) -->
+    <div id="guestModal" class="guest-modal hidden" onclick="closeGuestModalOverlay(event)">
+      <div class="guest-modal-content">
+        <div class="guest-modal-header">
+          <div>
+            <h3 class="guest-modal-title">Rekap Tamu</h3>
+            <p class="guest-modal-subtitle">Hendry &amp; Nesra — 26 Agustus 2026</p>
           </div>
+          <button class="guest-modal-close" onclick="closeGuestModal()">✕</button>
+        </div>
 
-          <!-- ACTION BUTTONS -->
-          <div class="guest-modal-actions">
-            <button class="btn-export-csv" onclick="exportGuestCSV()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>Unduh CSV</span>
-            </button>
+        <!-- SUMMARY COUNTERS -->
+        <div class="guest-summary-grid">
+          <div class="summary-card summary-hadir">
+            <span class="summary-num" id="sumHadir">0</span>
+            <span class="summary-label">Akan Hadir</span>
           </div>
-
-          <!-- TABLE -->
-          <div class="guest-table-wrap">
-            <table class="guest-table" id="guestTable">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama Tamu</th>
-                  <th>WhatsApp</th>
-                  <th>Status</th>
-                  <th>Jumlah</th>
-                  <th>Waktu</th>
-                </tr>
-              </thead>
-              <tbody id="guestTableBody">
-              </tbody>
-            </table>
+          <div class="summary-card summary-pax">
+            <span class="summary-num" id="sumPax">0</span>
+            <span class="summary-label">Total Pax</span>
+          </div>
+          <div class="summary-card summary-tidak">
+            <span class="summary-num" id="sumTidak">0</span>
+            <span class="summary-label">Berhalangan</span>
+          </div>
+          <div class="summary-card summary-mungkin">
+            <span class="summary-num" id="sumMungkin">0</span>
+            <span class="summary-label">Mungkin</span>
           </div>
         </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="guest-modal-actions">
+          <button class="btn-export-csv" onclick="exportGuestCSV()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Unduh CSV</span>
+          </button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="guest-table-wrap">
+          <table class="guest-table" id="guestTable">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Tamu</th>
+                <th>WhatsApp</th>
+                <th>Status</th>
+                <th>Jumlah</th>
+                <th>Waktu</th>
+              </tr>
+            </thead>
+            <tbody id="guestTableBody">
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- ──────────────────────────────────────────
          SECTION 8: UCAPAN & DOA
